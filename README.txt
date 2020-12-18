@@ -1,0 +1,1 @@
+Put the "english_words_v7" text file in the same directory as the code
