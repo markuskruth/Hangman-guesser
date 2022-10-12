@@ -14,7 +14,9 @@ print("Choose a word that is 4-8 characters long \n")
 
 word_length = int(input("How long is your word? "))
 
-#remove words under 4 letters using list comprehension
+#word_length = 6
+
+#remove words all words that are not *word_length* letters long using list comprehension
 english_words = [word for word in english_words if len(word) == word_length]
 
 time.sleep(0.5)
@@ -23,14 +25,23 @@ time.sleep(0.5)
 
 monta = 0
 new_letters = []
-väärin = 100
+totalGuesses = 10
+väärin = 0
 guess_letters = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o",
                  "p","r","s","t","u","v","w","y",]
 
-run = True
-while run:
+def bestLetter(words,guess_letters):
+    letters = []
+    for word in words:
+        for i in range(len(word)):
+            if word[i] in guess_letters:
+                letters.append(word[i])
+
+    return letters
+
+while True:
     try:
-        if väärin == 0:
+        if totalGuesses-väärin == 0 or len(english_words) == 1:
             break
         else:
             print("")
@@ -39,9 +50,9 @@ while run:
             
             new_lista = []
             
-            print("I have", väärin, "guesses left")
+            print(f"I have used {väärin}/{totalGuesses} of my guesses")
 
-            guess = random.choice(guess_letters)
+            guess = random.choice(bestLetter(english_words,guess_letters))
             guess_letters.remove(guess)
 
             osuiko = input("Does your word contain the letter \"" + guess + "\"? (y/n): ")
@@ -89,7 +100,7 @@ while run:
                 guess_letters = new_letters_v2
 
             else:
-                väärin -= 1
+                väärin += 1
     except:
         print("Sorry, but either you fucked up or your word is not in my dictionary")
         väärin = 100
